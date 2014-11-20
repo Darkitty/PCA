@@ -3,19 +3,19 @@
 
 #define MAX 50
 
-struct pile
+typedef struct
 {
 	double* elements;
 	int sommet;
 	int index;
-};
+} pile_t;
 
-int empty(struct Pile* pile);
+int empty(pile_t* pile);
 
-int stack(struct Pile* pile, double element);
-double unstack(struct Pile* pile);
+int stack(pile_t* pile, double element);
+double unstack(pile_t* pile);
 
-int freeSpace(struct Pile* pile);
-int occupedSpace(struct Pile* pile);
+int freeSpace(pile_t* pile);
+int occupedSpace(pile_t* pile);
 
 #endif
