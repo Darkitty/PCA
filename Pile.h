@@ -1,13 +1,14 @@
 #ifndef PILE_H
 #define PILE_H
 
-#define MAX 50
+#include <stdlib.h>
+#include <stdio.h>
 
 typedef struct
 {
 	double* elements;
 	int sommet;
-	int index;
+	int max;
 } pile_t;
 
 int empty(pile_t* pile);
