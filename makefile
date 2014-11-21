@@ -1,5 +1,5 @@
 CC = gcc
-SRC = Pile.c Main.c
+SRC = Pile.c List.c Main.c
 OBJ = $(SRC: .c=.o)
 CFLAGS=-W -Wall -ansi -pedantic -lm -g
 

@@ -11,6 +11,8 @@ typedef struct
 	int max;
 } pile_t;
 
+void initPile(pile_t* pile, int max);
+
 int empty(pile_t* pile);
 
 int stack(pile_t* pile, double element);
