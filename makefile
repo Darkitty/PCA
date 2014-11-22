@@ -25,7 +25,7 @@ test_List: test_List.o
 
 # Utilities
 clean:
-	rm -f *.o exec*
+	rm -f *.o exec* 2*
 
 # Generic rules
 %.o: %.c
