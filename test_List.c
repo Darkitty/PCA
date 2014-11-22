@@ -2,25 +2,31 @@
 
 int main()
 {
-	list_t* ptr_list;
 	int retour;
 
-	ptr_list = (list_t*)malloc(sizeof(list_t));
+	printf("%s\n", "----- TEST LIST INIT -----");
+	initList();
 
-	retour = initList(ptr_list, "TEST", NULL);
+	printf("%s\n", "----- TEST LIST insertHead -----");
+	retour = insertHead("TEST1");
+	printf("Head : %p\n", ptr_head);
+	printf("Retour : %d\n", retour);
 
-	printf("%p\n", ptr_list);
-	printf("%s\n", ptr_list->value);
-	printf("%p\n", ptr_list->next);
 
-	insertHead(ptr_list, "TEST2");
+	printf("%s\n", "----- TEST LIST insertQueue -----");
+	retour = insertQueue("TEST0");
+	printf("Head : %p\n", ptr_head);
+	printf("Retour : %d\n", retour);
 
-	printf("Premier element : %p\n", ptr_list->next);
+	printf("%s\n", "----- TEST LIST deleteHead -----");
+	retour = insertHead("TEST2");
+	printf("Retour : %d\n", retour);
 
-	insertHead(ptr_list->next, "TEST2");
-	printf("%s\n", "--------------------------");
-	printf("Deuxieme element : %p\n", ptr_list->next->next);
-
+	printf("%s\n", "----- BEFORE -----");
+	view();
+	deleteHead();	
+	printf("%s\n", "----- AFTER -----");
+	view();
 
 	return 0;
 }

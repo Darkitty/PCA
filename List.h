@@ -14,10 +14,15 @@ struct list_t
 
 list_t* ptr_head;
 
-void initList(list_t* liste, void* value, list_t* next);
+void initList();
 
-int insertHead(list_t* liste, void* value);
-int insertQueue(list_t* liste, void* value);
+int insertHead(void* value);
+int insertQueue(void* value);
+
+int deleteValue();
+int deleteHead();
+
+void view();
 
 void desctructList(list_t* liste);
 
