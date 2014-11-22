@@ -1,9 +1,14 @@
 #include "Pile.h"
 
-void initPile(pile_t* pile, int max) {
+int initPile(pile_t* pile, int max) {
 	pile->elements = (double* )calloc(max, sizeof(double));
+	if (pile->elements == NULL)
+	{
+		return -1;
+	}
 	pile->sommet = -1;
 	pile->max = max;
+	return 0;
 }
 
 /**

@@ -6,7 +6,7 @@ int main()
 	pile_t* ptr_pile = &pile;
 	double variable;
 
-	initPile(ptr_pile, 10);
+	int i = initPile(ptr_pile, 10);
 
 	printf("%s\n", "----- TEST PILE VIDE -----");
 	printf("%d\n", empty(ptr_pile));
