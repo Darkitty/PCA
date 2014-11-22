@@ -51,12 +51,20 @@ double unstack(pile_t* pile) {
 	return ret;
 }
 
+/**
+Retourne le nombre de places restantes
+dans la pile
+*/
 int freeSpace(pile_t* pile) {
 	if (empty(pile) == -1)
 		return -1;
 	return pile->max -(pile->sommet + 1);
 }
 
+/**
+Retourne le nombre de places occupees
+dans la pile
+*/
 int occupedSpace(pile_t* pile) {
 	if (empty(pile) == -1)
 		return -1;
