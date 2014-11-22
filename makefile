@@ -1,7 +1,7 @@
 CC = gcc
 SRC = Pile.c List.c Main.c
 OBJ = $(SRC: .c=.o)
-CFLAGS=-W -Wall -ansi -pedantic -lm -g
+CFLAGS=-W -Wall -ansi -pedantic -lm -g -o2 -pipe
 
 exec: $(OBJ)
 	gcc -o exec $(OBJ)

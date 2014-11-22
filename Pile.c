@@ -1,7 +1,7 @@
 #include "Pile.h"
 
 void initPile(pile_t* pile, int max) {
-	pile->elements = (double*)calloc(max, sizeof(double));
+	pile->elements = (double* )calloc(max, sizeof(double));
 	pile->sommet = -1;
 	pile->max = max;
 }
