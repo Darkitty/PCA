@@ -1,10 +1,10 @@
 #include "Pile.h"
-#include "List.h"
 
-int main(int argc, char const *argv[])
+int main()
 {
 	pile_t pile;
 	pile_t* ptr_pile = &pile;
+	double variable;
 
 	initPile(ptr_pile, 10);
 
@@ -16,7 +16,6 @@ int main(int argc, char const *argv[])
 	printf("%d\n", empty(ptr_pile));
 
 	printf("%s\n", "----- TEST UNSTACK -----");
-	double variable;
 	variable = unstack(ptr_pile);
 	printf("%f\n", variable);
 	printf("%d\n", empty(ptr_pile));	

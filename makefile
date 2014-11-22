@@ -1,14 +1,22 @@
+# Parameters for compilation
 CC = gcc
-SRC = Pile.c List.c Main.c
+SRC_PILE = Pile.c test_Pile.c
 OBJ = $(SRC: .c=.o)
 CFLAGS=-W -Wall -ansi -pedantic -lm -g -o2 -pipe
 
+# Main make for final executable
 exec: $(OBJ)
-	gcc -o exec $(OBJ)
-fonc.o : fonc.c
-	$(CC) -o $@ -c $< $(CFLAGS)
-Main.o : Main.c
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o exec $(OBJ)
 
+
+# Compilation for Pile and its tests
+test_Pile: test_Pile.o
+	$(CC) -o test_Pile $(SRC_PILE) $(CFLAGS)
+test_Pile.o: test_Pile.c Pile.h
+	$(CC) -o test_Pile.o -c test_Pile.c $(CFLAGS)
+Pile.o: Pile.c Pile.h
+	$(CC) -o Pile.o -c Pile.c $(CFLAGS)
+
+# Utilities
 clean:
 	rm -f *.o exec*

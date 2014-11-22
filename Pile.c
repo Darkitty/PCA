@@ -26,6 +26,7 @@ int stack(pile_t* pile, double element) {
 		return -1;
 	pile->sommet++;
 	pile->elements[pile->sommet] = element;
+	return 0;
 }
 
 /**
@@ -33,9 +34,9 @@ Depile le dernier element de la pile
 Retourne '-1' si la pile est vide et le double sinon
 */
 double unstack(pile_t* pile) {
+	double ret;
 	if (empty(pile) == 1)
 		return -1;
-	double ret;
 	ret = pile->elements[pile->sommet];
 	pile->sommet = pile->sommet - 1;
 	return ret;
