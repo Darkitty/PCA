@@ -17,10 +17,9 @@ exec: $(OBJ)
 # Compilation for Pile and its tests
 test_Pile: test_Pile.o
 	$(CC) -o test_Pile $(SRC_PILE) $(CFLAGS)
-
 # Compilation for List and its tests
 test_List: test_List.o
-	$(CC) -o test_List $(SRC_PILE) $(CFLAGS)
+	$(CC) -o test_List $(SRC_LIST) $(CFLAGS)
 
 
 # Utilities

@@ -12,6 +12,8 @@ struct list_t
 	struct list_t* next;
 };
 
+list_t* ptr_head;
+
 void initList(list_t* liste, void* value, list_t* next);
 
 void insertHead(list_t* liste, void* value);
