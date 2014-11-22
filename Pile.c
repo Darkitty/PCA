@@ -1,5 +1,9 @@
 #include "Pile.h"
 
+/**
+Initialise la Pile avec MAX cases
+Retourne '-1' si jamais le calloc a echoue
+*/
 int initPile(pile_t* pile, int max) {
 	pile->elements = (double* )calloc(max, sizeof(double));
 	if (pile->elements == NULL)
