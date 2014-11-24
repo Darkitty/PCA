@@ -139,3 +139,8 @@ int desctructList(list_t* list) {
 	else
 		return -1;
 }
+
+int operation(int (*fct)(void *, void *), void *a, void *b)
+{
+  return (*fct)(a, b);
+}
