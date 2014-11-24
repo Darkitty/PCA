@@ -19,7 +19,7 @@ void initList();
 int insertHead(void* value);
 int insertQueue(void* value);
 
-int deleteValue();
+int deleteValue(void* value);
 int deleteHead();
 
 void view();

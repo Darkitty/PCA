@@ -15,10 +15,10 @@ exec: $(OBJ)
 
 
 # Compilation for Pile and its tests
-test_Pile: test_Pile.o
+test_Pile: test_Pile.c Pile.c
 	$(CC) -o test_Pile $(SRC_PILE) $(CFLAGS)
 # Compilation for List and its tests
-test_List: test_List.o
+test_List: test_List.c List.c
 	$(CC) -o test_List $(SRC_LIST) $(CFLAGS)
 
 
