@@ -47,7 +47,7 @@ int main()
 
 	printf("%s\n", "----- TEST LIST operation -----");
 	operation(&insertQueue, ptr_list, "NULL");
-	view(ptr_list);
+	operation(&view, ptr_list, NULL);
 
 	return 0;
 }

@@ -140,7 +140,11 @@ int desctructList(list_t* list) {
 		return -1;
 }
 
-int operation(int (*fct)(void *, void *), void *a, void *b)
+/**
+Application d'une fonction passee en parametre
+sur un noeud donne
+*/
+int operation(int (*fct)(list_t*, void*), list_t* a, void* b)
 {
   return (*fct)(a, b);
 }

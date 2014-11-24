@@ -20,7 +20,7 @@ int insertQueue(list_t* list, void* value);
 int deleteValue(list_t* list, void* value);
 int deleteHead(list_t* list);
 
-int operation(int (*fct)(void *, void *), void *, void *);
+int operation(int (*fct)(list_t*, void*), list_t* a, void* b);
 
 void view(list_t* list);
 
