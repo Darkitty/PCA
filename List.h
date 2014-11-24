@@ -12,18 +12,16 @@ struct list_t
 	struct list_t* next;
 };
 
-list_t* ptr_head;
+int initList(list_t* list);
 
-void initList();
+int insertHead(list_t* list, void* value);
+int insertQueue(list_t* list, void* value);
 
-int insertHead(void* value);
-int insertQueue(void* value);
+int deleteValue(list_t* list, void* value);
+int deleteHead(list_t* list);
 
-int deleteValue(void* value);
-int deleteHead();
+void view(list_t* list);
 
-void view();
-
-int desctructList();
+int desctructList(list_t* list);
 
 #endif
