@@ -2,7 +2,7 @@
 CC = gcc
 SRC = Pile.c List.c
 OBJ = $(SRC: .c=.o)
-CFLAGS=-W -Wall -ansi -pedantic -lm -g -o2 -pipe
+CFLAGS=-W -Wall -ansi -pedantic -lm -g -O2 -pipe
 
 # SRC variables for moduls
 SRC_PILE = Pile.c test_Pile.c
