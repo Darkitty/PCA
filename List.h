@@ -24,6 +24,6 @@ int deleteHead();
 
 void view();
 
-void desctructList(list_t* liste);
+int desctructList();
 
 #endif

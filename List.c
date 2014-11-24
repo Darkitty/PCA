@@ -80,7 +80,7 @@ liste (de la tete a la queue)
 void view() {
 	list_t* tmp = ptr_head;
 	while(tmp) {
-		printf("%s\n",tmp->value);
+		printf("%s\n",(char*)tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -113,5 +113,23 @@ int deleteValue(void* value) {
 		return 0;
 	}
 	else
-		return -1;		
+		return -1;
+}
+
+/**
+Destruction de l'ensemble des donnees
+de la liste
+*/
+int desctructList() {
+	if (ptr_head != NULL)
+	{
+		while (ptr_head != NULL)
+		{
+			deleteHead();
+		}
+		free(ptr_head);
+		return 0;
+	}
+	else
+		return -1;
 }

@@ -40,5 +40,9 @@ int main()
 	printf("%s\n", "----- AFTER -----");
 	view();
 
+	desctructList();
+	printf("%s\n", "----- AFTER -----");
+	view();
+
 	return 0;
 }
