@@ -12,13 +12,13 @@ struct list_t
 	struct list_t* next;
 };
 
-int initList(list_t* list);
+void* initList();
 
-int insertHead(list_t* list, void* value);
-int insertQueue(list_t* list, void* value);
+list_t* insertHead(list_t* list, void* value);
+list_t* insertQueue(list_t* list, void* value);
 
-int deleteValue(list_t* list, void* value);
-int deleteHead(list_t* list);
+list_t* deleteValue(list_t* list, void* value);
+list_t* deleteHead(list_t* list);
 
 int operation(int (*fct)(list_t*, void*), list_t* a, void* b);
 

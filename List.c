@@ -4,50 +4,52 @@
 Initialisation de la pile
 La tete est fixee a NULL
 */
-int initList(list_t* list) {
-	list = (list_t*)malloc(sizeof(list_t));
+void* initList() {
+	/*list = (list_t*)malloc(sizeof(list_t));
+	printf("%p\n", list);
 	if (list == NULL)
 	{
 		return -1;
 	}
 	list->next = NULL;
-	return 0;
+	return 0;*/
+	return NULL;
 }
 
 /**
 Insertion d'une nouvelle valeur
 en fin de liste
 */
-int insertHead(list_t* list, void* value) {
+list_t* insertHead(list_t* list, void* value) {
 	list_t* newList;
 	newList = (list_t*)malloc(sizeof(list_t));
 	if (newList == NULL)
 	{
-		return -1;
+		return NULL;
 	}
 	newList->value = value;
-	newList->next = list->next;
-	list->next = newList;
-	return 0;
+	newList->next = list;
+	list = newList;
+	return list;
 }
 
 /**
 Insertion d'une nouvelle valeur
 en debut de liste
 */
-int insertQueue(list_t* list, void* value){
+list_t* insertQueue(list_t* list, void* value){
 	list_t* courrant;
 	list_t* newList;
 
 	newList = (list_t*)malloc(sizeof(list_t));
 	if (newList == NULL)
 	{
-		return -1;
+		return NULL;
 	}
 
-	if (list->next != NULL)
+	if (list != NULL)
 	{
-		courrant = list->next;
+		courrant = list;
 		while (courrant->next != NULL)
 			courrant = courrant->next;
 
@@ -58,25 +60,25 @@ int insertQueue(list_t* list, void* value){
 	}
 	else
 	{
-		insertHead(list, value);
+		list = insertHead(list, value);
 	}
 
-	return 0;
+	return list;
 }
 
 /**
 Supprime la valeur en fin de liste
 */
-int deleteHead(list_t* list) {
+list_t* deleteHead(list_t* list) {
 	list_t* tmp;
-	if (list->next == NULL)
+	if (list == NULL)
 	{
-		return -1;
+		return NULL;
 	}	
-	tmp = list->next;
-	list->next = list->next->next;
+	tmp = list;
+	list = list->next;
 	free(tmp);
-	return 0;
+	return list;
 }
 
 /**
@@ -84,7 +86,7 @@ Affiche l'ensemble des valeurs de la
 liste (de la tete a la queue)
 */
 void view(list_t* list) {
-	list_t* tmp = list->next;
+	list_t* tmp = list;
 	while(tmp) {
 		printf("%s\n",(char*)tmp->value);
 		tmp = tmp->next;
@@ -95,31 +97,32 @@ void view(list_t* list) {
 Supprime la premiere occurence d'une
 valeur donnee dans la liste
 */
-int deleteValue(list_t* list, void* value) {
+list_t* deleteValue(list_t* list, void* value) {
 	list_t* courrant;
 	list_t* tmp;
+	tmp = NULL;
 
 	if (list->next != NULL)
 	{
-		courrant = list->next;
-		while (courrant->value != value)
+		courrant = list;
+		while (courrant != NULL && courrant->value != value)
 		{
 			tmp = courrant;
 			courrant = courrant->next;
 		}
-		if (courrant == list->next)
+		if (courrant == list)
 		{
-			deleteHead(list);
+			list = deleteHead(list);
 		}
 		else
 		{			
 			tmp->next = courrant->next;
 			free(courrant);
 		}
-		return 0;
+		return list;
 	}
 	else
-		return -1;
+		return NULL;
 }
 
 /**
@@ -127,13 +130,12 @@ Destruction de l'ensemble des donnees
 de la liste
 */
 int desctructList(list_t* list) {
-	if (list->next != NULL)
+	if (list != NULL)
 	{
-		while (list->next != NULL)
+		while (list != NULL)
 		{
-			deleteHead(list);
+			list = deleteHead(list);
 		}
-		free(list->next);
 		return 0;
 	}
 	else
