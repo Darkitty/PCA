@@ -29,3 +29,22 @@ Séance 1
         - suppression de la première instance dans la liste
         - application d'une fonction sur les données de la liste
         - destruction d'une liste complète
+
+Séance 2
+========
+
+- Cellule :
+    - chaine de caractère contenue dans la cellule
+    - double associé à la cellule (0.0 si non calculable)
+    - liste des jetons découlant de l'analyse de la formule
+    - liste des cellules en dépendances
+
+- Fueille de calcul :
+    - nom du fichier
+    - nombre de lignes
+    - nombre de colonnes
+    - liste des cellules existantes
+
+- Formule :
+    - résulte de la décomposition du contenu de la cellule
+    - ensemble de tokens -> nombre | référence vers une autre cellule | opérateur
