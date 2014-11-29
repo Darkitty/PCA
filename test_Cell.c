@@ -11,5 +11,7 @@ int main()
 	init();
 
 	evaluate(ptr_cell);
+
+	calculate(ptr_cell);
 	return 0;
 }

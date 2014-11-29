@@ -21,16 +21,11 @@ void evaluate(cell_t* cell) {
 	char* string;
 	int i;
 
-	pile_t pile;
-	pile_t* ptr_pile;
-
 	list_t list;
 	list_t* ptr_list;
 
-	ptr_pile = &pile;
 	ptr_list = &list;
 
-	initPile(ptr_pile, strlen(cell->saisi));
 	ptr_list = initList();
 
 	string = strdup(cell->saisi);
@@ -44,7 +39,7 @@ void evaluate(cell_t* cell) {
 			token_t* tmp;
 			tmp = newDoubleToken(strtod(explode, NULL));
 			ptr_list = insertHead(ptr_list, tmp);
-			printf("Double : %f\n", ((token_t*)(ptr_list->value))->type);
+			printf("Double : %f\n", ((token_t*)(ptr_list->value))->value.cst);
 		}
 		else
 		{
@@ -52,39 +47,56 @@ void evaluate(cell_t* cell) {
 			{
 				if (strcmp(explode, op[i].nom) == 0)
 				{
-					ptr_list = insertHead(ptr_list, newOperatorToken(op[i].ptr));
-			printf("Double : %f\n", ((token_t*)(ptr_list->value))->type);
+					token_t* tmp;
+					tmp = newOperatorToken(op[i].ptr);
+					ptr_list = insertHead(ptr_list, tmp);
+					printf("Pointeur fonction : %p\n", ((token_t*)(ptr_list->value))->value.ptr);
 				}
 			}
 		}
 		explode = strtok(NULL, " ");
 	}
+	printf("Double : %f\n", ((token_t*)(ptr_list->value))->type);
 	viewList(ptr_list);
 	cell->tokens = ptr_list;
 }
 
 token_t* newDoubleToken(double val) {
-	token_t token;
-	token_t* ptr_token = &token;
+	token_t* token;
+
+	token = (token_t*)malloc(sizeof(token_t));
 
 	printf("Token double : %f\n", val);
 
-	ptr_token->type = VALUE;
-	ptr_token->value.cst = val;
+	token->type = VALUE;
+	token->value.cst = val;
 
-	printf("Ref double : %f\n", ptr_token->value.cst);
+	printf("Ref double : %f\n", token->value.cst);
+	printf("Token type : %d\n", token->type);
 
-	return ptr_token;
+	return token;
 }
 
 token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
-	token_t token;
-	token_t* ptr_token = &token;
+	token_t* token;
 
-	ptr_token->type = OPERATOR;
-	ptr_token->value.ptr = ptr;
+	token = (token_t*)malloc(sizeof(token_t));
 
-	return ptr_token;
+	printf("Token fonction : %p\n", ptr);
+
+	token->type = OPERATOR;
+	token->value.ptr = ptr;
+	printf("Token type : %d\n", token->type);
+
+	return token;
+}
+
+void calculate(cell_t* cell) {
+	pile_t* ptr_pile;
+
+	ptr_pile = (pile_t*)malloc(sizeof(pile_t)*80);
+
+	initPile(ptr_pile, strlen(cell->saisi));
 }
 
 void addition(pile_t* eval) {
@@ -116,7 +128,12 @@ void viewList(list_t* list) {
 	int i;
 	i = 0;
 	while(tmp) {
-		printf("Element %d : %f\n", i, ((token_t*)(tmp->value))->type);
+		if (((token_t*)(tmp->value))->type == 0)
+		{
+			printf("Element %d : %f\n", i, ((token_t*)(tmp->value))->value);
+		}
+		else
+			printf("Element %d : %p\n", i, ((token_t*)(tmp->value))->value);
 		tmp = tmp->next;
 		i++;
 	}
