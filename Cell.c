@@ -21,11 +21,16 @@ void evaluate(cell_t* cell) {
 	char* string;
 	int i;
 
+	pile_t pile;
+	pile_t* ptr_pile;
+
 	list_t list;
 	list_t* ptr_list;
 
+	ptr_pile = &pile;
 	ptr_list = &list;
 
+	initPile(ptr_pile, strlen(cell->saisi));
 	ptr_list = initList();
 
 	string = strdup(cell->saisi);
@@ -40,6 +45,7 @@ void evaluate(cell_t* cell) {
 			tmp = newDoubleToken(strtod(explode, NULL));
 			ptr_list = insertHead(ptr_list, tmp);
 			printf("Double : %f\n", ((token_t*)(ptr_list->value))->value.cst);
+			stack(ptr_pile, strtod(explode, NULL));
 		}
 		else
 		{
@@ -51,12 +57,27 @@ void evaluate(cell_t* cell) {
 					tmp = newOperatorToken(op[i].ptr);
 					ptr_list = insertHead(ptr_list, tmp);
 					printf("Pointeur fonction : %p\n", ((token_t*)(ptr_list->value))->value.ptr);
+					switch (i) {
+						case 0:
+							addition(ptr_pile);
+							break;
+						case 1:
+							subtraction(ptr_pile);
+							break;
+						case 2:
+							multiplication(ptr_pile);
+							break;
+						case 3:
+							division(ptr_pile);
+							break;
+					}
 				}
 			}
 		}
 		explode = strtok(NULL, " ");
 	}
 	printf("Double : %f\n", ((token_t*)(ptr_list->value))->type);
+	printf("Pile %f\n", unstack(ptr_pile));
 	viewList(ptr_list);
 	cell->tokens = ptr_list;
 }
@@ -89,14 +110,6 @@ token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
 	printf("Token type : %d\n", token->type);
 
 	return token;
-}
-
-void calculate(cell_t* cell) {
-	pile_t* ptr_pile;
-
-	ptr_pile = (pile_t*)malloc(sizeof(pile_t)*80);
-
-	initPile(ptr_pile, strlen(cell->saisi));
 }
 
 void addition(pile_t* eval) {

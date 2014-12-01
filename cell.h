@@ -41,8 +41,6 @@ void evaluate(cell_t* cell);
 token_t* newDoubleToken(double val);
 token_t* newOperatorToken(void (*ptr)(pile_t* eval));
 
-void calculate(cell_t* cell);
-
 void addition(pile_t* eval);
 void subtraction(pile_t* eval);
 void multiplication(pile_t* eval);
