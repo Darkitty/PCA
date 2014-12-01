@@ -1,3 +1,10 @@
+/**
+* \file List.c
+* \author Nicolas Le Gall
+* \date 01/12/2014
+* \brief Definit l'ensemble des methodes pour une structure de type List
+*/
+
 #include "List.h"
 
 /**
@@ -5,20 +12,14 @@ Initialisation de la pile
 La tete est fixee a NULL
 */
 void* initList() {
-	/*list = (list_t*)malloc(sizeof(list_t));
-	printf("%p\n", list);
-	if (list == NULL)
-	{
-		return -1;
-	}
-	list->next = NULL;
-	return 0;*/
 	return NULL;
 }
 
 /**
 Insertion d'une nouvelle valeur
 en fin de liste
+* \param list Adresse de la liste
+* \param value Valeur a ajouter dans la liste
 */
 list_t* insertHead(list_t* list, void* value) {
 	list_t* newList;
@@ -36,6 +37,8 @@ list_t* insertHead(list_t* list, void* value) {
 /**
 Insertion d'une nouvelle valeur
 en debut de liste
+* \param list Adresse de la liste
+* \param value Valeur a ajouter dans la liste
 */
 list_t* insertQueue(list_t* list, void* value){
 	list_t* courrant;
@@ -68,6 +71,7 @@ list_t* insertQueue(list_t* list, void* value){
 
 /**
 Supprime la valeur en fin de liste
+* \param list Adresse de la liste
 */
 list_t* deleteHead(list_t* list) {
 	list_t* tmp;
@@ -84,11 +88,12 @@ list_t* deleteHead(list_t* list) {
 /**
 Affiche l'ensemble des valeurs de la
 liste (de la tete a la queue)
+* \param list Adresse de la liste
 */
 void view(list_t* list) {
 	list_t* tmp = list;
 	while(tmp) {
-		printf("%s\n",(char*)tmp->value);
+		printf("%p\n", tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -96,6 +101,8 @@ void view(list_t* list) {
 /**
 Supprime la premiere occurence d'une
 valeur donnee dans la liste
+* \param list Adresse de la liste
+* \param value Valeur a supprimer de la liste
 */
 list_t* deleteValue(list_t* list, void* value) {
 	list_t* courrant;
@@ -128,6 +135,8 @@ list_t* deleteValue(list_t* list, void* value) {
 /**
 Destruction de l'ensemble des donnees
 de la liste
+* \param list Adresse de la liste
+* \return Le code de retour
 */
 int desctructList(list_t* list) {
 	if (list != NULL)
@@ -145,6 +154,10 @@ int desctructList(list_t* list) {
 /**
 Application d'une fonction passee en parametre
 sur un noeud donne
+* \param fct Pointeur sur la fonction
+* \param a Pointeur sur la liste
+* \param b 
+* \return Le resultat de la fonction
 */
 int operation(int (*fct)(list_t*, void*), list_t* a, void* b)
 {
