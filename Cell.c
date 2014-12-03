@@ -38,13 +38,11 @@ void evaluate(cell_t* cell) {
 
 	explode = strtok(string, " ");
 	while(explode != NULL) {
-		printf("Explode : %s\n", explode);
 		if (strtod(explode, NULL) != 0.00)
 		{
 			token_t* tmp;
 			tmp = newDoubleToken(strtod(explode, NULL));
 			ptr_list = insertHead(ptr_list, tmp);
-			printf("Double : %f\n", ((token_t*)(ptr_list->value))->value.cst);
 			stack(ptr_pile, strtod(explode, NULL));
 		}
 		else
@@ -56,7 +54,6 @@ void evaluate(cell_t* cell) {
 					token_t* tmp;
 					tmp = newOperatorToken(op[i].ptr);
 					ptr_list = insertHead(ptr_list, tmp);
-					printf("Pointeur fonction : %p\n", ((token_t*)(ptr_list->value))->value.ptr);
 					switch (i) {
 						case 0:
 							addition(ptr_pile);
@@ -76,9 +73,11 @@ void evaluate(cell_t* cell) {
 		}
 		explode = strtok(NULL, " ");
 	}
-	printf("Double : %f\n", ((token_t*)(ptr_list->value))->type);
-	printf("Pile %f\n", unstack(ptr_pile));
-	viewList(ptr_list);
+	cell->value = unstack(ptr_pile);
+	if (cell->value == -1)
+	{
+		cell->value = 0;
+	}
 	cell->tokens = ptr_list;
 }
 
@@ -87,13 +86,8 @@ token_t* newDoubleToken(double val) {
 
 	token = (token_t*)malloc(sizeof(token_t));
 
-	printf("Token double : %f\n", val);
-
 	token->type = VALUE;
 	token->value.cst = val;
-
-	printf("Ref double : %f\n", token->value.cst);
-	printf("Token type : %d\n", token->type);
 
 	return token;
 }
@@ -103,11 +97,8 @@ token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
 
 	token = (token_t*)malloc(sizeof(token_t));
 
-	printf("Token fonction : %p\n", ptr);
-
 	token->type = OPERATOR;
 	token->value.ptr = ptr;
-	printf("Token type : %d\n", token->type);
 
 	return token;
 }
