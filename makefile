@@ -22,7 +22,7 @@ test_Pile: test_Pile.c Pile.c Pile.h
 test_List: test_List.c List.c List.h
 	$(CC) -o test_List $(SRC_LIST) $(CFLAGS)
 # Compilation for Cell and its tests
-test_Cell: test_Cell.c Cell.c Cell.h List.h Pile.h List.c
+test_Cell: test_Cell.c Cell.c Cell.h List.h List.c Pile.h List.c
 	$(CC) -o test_Cell $(SRC_CELL) $(CFLAGS)
 
 

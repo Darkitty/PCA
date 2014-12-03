@@ -13,7 +13,8 @@ struct cell_t
 	char* saisi;
 	double value;
 	list_t* tokens;
-	cell_t* dependancies;
+	list_t* dependancies;
+	char* name;
 };
 
 typedef struct
@@ -47,5 +48,8 @@ void multiplication(pile_t* eval);
 void division(pile_t* eval);
 
 void viewList(list_t* list);
+
+void topologicalSorting(cell_t* listCell);
+cell_t* getReference(list_t* listCell, char* target);
 
 #endif

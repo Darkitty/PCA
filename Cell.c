@@ -142,3 +142,21 @@ void viewList(list_t* list) {
 		i++;
 	}
 }
+
+void topologicalSorting(cell_t* listCell) {
+	int i;
+	for (i = 0; i < listCell; ++i)
+	{
+
+	}
+}
+
+cell_t* getReference(list_t* listCell, char* target) {
+	list_t* tmp = listCell;
+	while(tmp) {
+		if (((cell_t*)(tmp->value))->name == target)
+			return tmp->value;
+		tmp = tmp->next;
+	}
+	return NULL;
+}
