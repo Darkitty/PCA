@@ -1,6 +1,8 @@
 #ifndef WORKSHEET_H
 #define WORKSHEET_H
 
+#include "List.h"
+
 typedef struct
 {
 	char* file_name;

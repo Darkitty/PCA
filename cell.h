@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "List.h"
 #include "Pile.h"
+#include "Worksheet.h"
 
 typedef struct cell_t cell_t;
 
@@ -37,7 +38,7 @@ extern operation_t op[4];
 
 void init();
 
-void evaluate(cell_t* cell);
+void evaluate(worksheet_t* worksheet, cell_t* cell);
 
 token_t* newDoubleToken(double val);
 token_t* newOperatorToken(void (*ptr)(pile_t* eval));
@@ -50,6 +51,6 @@ void division(pile_t* eval);
 void viewList(list_t* list);
 
 void topologicalSorting(cell_t* listCell);
-cell_t* getReference(list_t* listCell, char* target);
+cell_t* getReference(worksheet_t* worksheet, char* target);
 
 #endif

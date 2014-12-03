@@ -7,7 +7,7 @@ CFLAGS=-W -Wall -ansi -pedantic -lm -g -O2 -pipe
 # SRC variables for moduls
 SRC_PILE = Pile.c test_Pile.c
 SRC_LIST = List.c test_List.c
-SRC_CELL = Cell.c test_Cell.c Pile.c List.c
+SRC_CELL = Cell.c test_Cell.c Pile.c List.c Worksheet.h
 
 
 # Main make for final executable

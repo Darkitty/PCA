@@ -16,7 +16,7 @@ void init() {
 	op[3].ptr = &division;
 }
 
-void evaluate(cell_t* cell) {
+void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	char* explode;
 	char* string;
 	int i;
@@ -26,6 +26,8 @@ void evaluate(cell_t* cell) {
 
 	list_t list;
 	list_t* ptr_list;
+
+	cell_t* dependance;
 
 	ptr_pile = &pile;
 	ptr_list = &list;
@@ -38,6 +40,7 @@ void evaluate(cell_t* cell) {
 
 	explode = strtok(string, " ");
 	while(explode != NULL) {
+		printf("%s\n", explode);
 		if (strtod(explode, NULL) != 0.00)
 		{
 			token_t* tmp;
@@ -47,26 +50,34 @@ void evaluate(cell_t* cell) {
 		}
 		else
 		{
-			for (i = 0; i < 4; ++i)
+			dependance = getReference(worksheet, explode);
+			if (dependance != NULL)
 			{
-				if (strcmp(explode, op[i].nom) == 0)
+				cell->dependancies = insertHead(cell->dependancies, dependance);
+				printf("Dependances : %p\n", dependance);
+			}
+			else {
+				for (i = 0; i < 4; ++i)
 				{
-					token_t* tmp;
-					tmp = newOperatorToken(op[i].ptr);
-					ptr_list = insertHead(ptr_list, tmp);
-					switch (i) {
-						case 0:
-							addition(ptr_pile);
-							break;
-						case 1:
-							subtraction(ptr_pile);
-							break;
-						case 2:
-							multiplication(ptr_pile);
-							break;
-						case 3:
-							division(ptr_pile);
-							break;
+					if (strcmp(explode, op[i].nom) == 0)
+					{
+						token_t* tmp;
+						tmp = newOperatorToken(op[i].ptr);
+						ptr_list = insertHead(ptr_list, tmp);
+						switch (i) {
+							case 0:
+								addition(ptr_pile);
+								break;
+							case 1:
+								subtraction(ptr_pile);
+								break;
+							case 2:
+								multiplication(ptr_pile);
+								break;
+							case 3:
+								division(ptr_pile);
+								break;
+						}
 					}
 				}
 			}
@@ -151,11 +162,12 @@ void topologicalSorting(cell_t* listCell) {
 	}
 }
 
-cell_t* getReference(list_t* listCell, char* target) {
-	list_t* tmp = listCell;
+cell_t* getReference(worksheet_t* worksheet, char* target) {
+	list_t* tmp = worksheet->cells;
 	while(tmp) {
-		if (((cell_t*)(tmp->value))->name == target)
+		if (strcmp(((cell_t*)(tmp->value))->name, target) == 0) {
 			return tmp->value;
+		}
 		tmp = tmp->next;
 	}
 	return NULL;
