@@ -51,6 +51,7 @@ void division(pile_t* eval);
 void viewList(list_t* list);
 
 void topologicalSorting(cell_t* listCell);
+void getDegre(cell_t* listCell);
 cell_t* getReference(worksheet_t* worksheet, char* target);
 
 #endif

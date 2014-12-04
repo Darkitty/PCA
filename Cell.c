@@ -54,7 +54,7 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 			if (dependance != NULL)
 			{
 				cell->dependancies = insertHead(cell->dependancies, dependance);
-				printf("Dependances : %p\n", dependance);
+				printf("Dependances : %p\n", (void*)dependance);
 			}
 			else {
 				for (i = 0; i < 4; ++i)
@@ -116,25 +116,57 @@ token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
 
 void addition(pile_t* eval) {
 	double res;
-	res = unstack(eval) + unstack(eval);
+	double tmp;
+	double tmp2;
+	tmp = unstack(eval);
+	tmp2 = unstack(eval);
+	if ((tmp == -1)||(tmp2 == -1))
+	{
+		return;
+	}
+	res = tmp + tmp2;
 	stack(eval, res);
 }
 
 void subtraction(pile_t* eval) {
 	double res;
-	res = unstack(eval) - unstack(eval);
+	double tmp;
+	double tmp2;
+	tmp = unstack(eval);
+	tmp2 = unstack(eval);
+	if ((tmp == -1)||(tmp2 == -1))
+	{
+		return;
+	}
+	res = tmp - tmp2;
 	stack(eval, res);
 }
 
 void multiplication(pile_t* eval) {
 	double res;
-	res = unstack(eval) * unstack(eval);
+	double tmp;
+	double tmp2;
+	tmp = unstack(eval);
+	tmp2 = unstack(eval);
+	if ((tmp == -1)||(tmp2 == -1))
+	{
+		return;
+	}
+	res = tmp * tmp2;
 	stack(eval, res);
 }
 
 void division(pile_t* eval) {
 	double res;
-	res = unstack(eval) / unstack(eval);
+	double tmp;
+	double tmp2;
+	tmp = unstack(eval);
+	tmp2 = unstack(eval);
+	if ((tmp == -1)||(tmp2 == -1))
+	{
+		return;
+	}
+	res = tmp / tmp2;
 	stack(eval, res);
 }
 
@@ -145,10 +177,10 @@ void viewList(list_t* list) {
 	while(tmp) {
 		if (((token_t*)(tmp->value))->type == 0)
 		{
-			printf("Element %d : %f\n", i, ((token_t*)(tmp->value))->value);
+			printf("Element %d : %f\n", i, ((token_t*)(tmp->value))->value.cst);
 		}
 		else
-			printf("Element %d : %p\n", i, ((token_t*)(tmp->value))->value);
+			printf("Element %d : %p\n", i, (void*)((token_t*)(tmp->value))->value.ref);
 		tmp = tmp->next;
 		i++;
 	}
@@ -156,10 +188,16 @@ void viewList(list_t* list) {
 
 void topologicalSorting(cell_t* listCell) {
 	int i;
-	for (i = 0; i < listCell; ++i)
+	int nbCells;
+	nbCells = 4;
+	for (i = 0; i < nbCells; ++i)
 	{
 
 	}
+}
+
+void getDegre(cell_t* listCell) {
+
 }
 
 cell_t* getReference(worksheet_t* worksheet, char* target) {
