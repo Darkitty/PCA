@@ -16,6 +16,7 @@ struct cell_t
 	list_t* tokens;
 	list_t* dependancies;
 	char* name;
+	int degree;
 };
 
 typedef struct
@@ -50,8 +51,8 @@ void division(pile_t* eval);
 
 void viewList(list_t* list);
 
-void topologicalSorting(cell_t* listCell);
-void getDegre(cell_t* listCell);
+void topologicalSorting(worksheet_t* worksheet);
+void getDegree(worksheet_t* worksheet);
 cell_t* getReference(worksheet_t* worksheet, char* target);
 
 #endif

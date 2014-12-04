@@ -186,7 +186,7 @@ void viewList(list_t* list) {
 	}
 }
 
-void topologicalSorting(cell_t* listCell) {
+void topologicalSorting(worksheet_t* worksheet) {
 	int i;
 	int nbCells;
 	nbCells = 4;
@@ -196,8 +196,23 @@ void topologicalSorting(cell_t* listCell) {
 	}
 }
 
-void getDegre(cell_t* listCell) {
-
+void getDegree(worksheet_t* worksheet) {
+	list_t* tmp = worksheet->cells;
+	list_t* tmp2;
+	int cmp;
+	while(tmp) {
+		cmp = 0;
+		if (((cell_t*)(tmp->value))->dependancies != NULL)
+		{
+			tmp2 = ((cell_t*)(tmp->value))->dependancies;
+			while(tmp2) {
+				++cmp;
+				tmp2 = tmp2->next;
+			}
+		}
+		((cell_t*)(tmp->value))->degree = cmp;
+		tmp = tmp->next;
+	}
 }
 
 cell_t* getReference(worksheet_t* worksheet, char* target) {

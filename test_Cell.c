@@ -18,11 +18,12 @@ int main()
 	ptr_worksheet = &worksheet;
 
 	ptr_cell->saisi = saisi;
+	ptr_cell2->saisi = string;
 	ptr_cell->name = "A1";
-
-
-
 	ptr_cell2->name = "A2";
+
+	ptr_cell->dependancies = initList();
+	ptr_cell2->dependancies = initList();
 
 	ptr_worksheet->cells = initList();
 	ptr_worksheet->cells = insertHead(ptr_worksheet->cells, ptr_cell);
@@ -39,12 +40,16 @@ int main()
 	printf("Résultat attendu -> 27 (5+4)*3 : %f\n", ptr_cell->value);
 
 	printf("%s\n", "----- TEST EVALUATION -----");
-	ptr_cell->saisi = string;
-	evaluate(ptr_worksheet, ptr_cell);
-	printf("Résultat attendu -> 0 : %f\n", ptr_cell->value);
+	evaluate(ptr_worksheet, ptr_cell2);
+	printf("Résultat attendu -> 0 : %f\n", ptr_cell2->value);
 
 	printf("%s\n", "---- TEST GETREFERENCE ----");
 	printf("Résultat attendu -> %p : %p\n", (void*)ptr_cell2, (void*)getReference(ptr_worksheet, "A2"));
+
+	printf("%s\n", "------ TEST GETDEGRE ------");
+	getDegree(ptr_worksheet);
+	printf("Resultat attendu -> 2 : %d\n", ptr_cell2->degree);
+	printf("Resultat attendu -> 0 : %d\n", ptr_cell->degree);
 
 
 	return 0;
