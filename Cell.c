@@ -54,7 +54,8 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 			if (dependance != NULL)
 			{
 				cell->dependancies = insertHead(cell->dependancies, dependance);
-				printf("Dependances : %p\n", (void*)dependance);
+				dependance->usedBy = insertHead(dependance->usedBy, cell);
+				stack(ptr_pile, dependance->value);
 			}
 			else {
 				for (i = 0; i < 4; ++i)
@@ -90,6 +91,14 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 		cell->value = 0;
 	}
 	cell->tokens = ptr_list;
+}
+
+void evaluateGraph(worksheet_t* worksheet) {
+	list_t* tmp = worksheet->graphDep;
+	while(tmp) {
+		evaluate(worksheet, tmp->value);
+		tmp = tmp->next;
+	}
 }
 
 token_t* newDoubleToken(double val) {
@@ -170,7 +179,7 @@ void division(pile_t* eval) {
 	stack(eval, res);
 }
 
-void viewList(list_t* list) {
+void viewListCell(list_t* list) {
 	list_t* tmp = list;
 	int i;
 	i = 0;
@@ -187,13 +196,72 @@ void viewList(list_t* list) {
 }
 
 void topologicalSorting(worksheet_t* worksheet) {
-	int i;
+	list_t* tmp = worksheet->cells;
+	list_t* tmpDep;
+	list_t* shortCells;
+	void* cellDep;
 	int nbCells;
-	nbCells = 4;
-	for (i = 0; i < nbCells; ++i)
-	{
-
+	int insertions;
+	int cmpDep;
+	int depFound;
+	nbCells = 0;
+	insertions = 0;
+	cmpDep = 0;
+	depFound = 0;
+	shortCells = initList();
+	while(tmp) {
+		nbCells += 1;
+		tmp = tmp->next;
 	}
+	while(nbCells != insertions) {
+		tmp = worksheet->cells;
+		while(tmp) {
+			if (((cell_t*)tmp->value)->dependancies != NULL)
+			{
+				tmpDep = ((cell_t*)tmp->value)->dependancies;
+				cmpDep = 0;
+				depFound = 0;
+				while(tmpDep) {
+					cellDep = search(shortCells, ((cell_t*)tmpDep->value)->name);
+					if (cellDep != NULL)
+					{
+						depFound += 1;
+					}
+					cmpDep += 1;
+					tmpDep = tmpDep->next;
+				}
+				if (cmpDep == depFound)
+				{
+					shortCells = insertQueue(shortCells, tmp->value);
+					insertions += 1;
+					break;
+				}
+			}
+			else if ((((cell_t*)tmp->value)->dependancies == NULL)&&((cell_t*)tmp->value)->usedBy != NULL)
+			{
+				cellDep = search(shortCells, ((cell_t*)tmp->value)->name);
+				if (cellDep == NULL)
+				{
+					shortCells = insertQueue(shortCells, tmp->value);
+					insertions += 1;
+					break;
+				}
+			}
+			else if (((cell_t*)tmp->value)->dependancies == NULL)
+			{
+				cellDep = search(shortCells, ((cell_t*)tmp->value)->name);
+				if (cellDep == NULL)
+				{
+					shortCells = insertQueue(shortCells, tmp->value);
+					insertions += 1;
+					break;
+				}
+			}
+			tmp = tmp->next;
+		}
+	}
+	worksheet->graphDep = shortCells;
+	view(shortCells);
 }
 
 void getDegree(worksheet_t* worksheet) {
@@ -219,6 +287,18 @@ cell_t* getReference(worksheet_t* worksheet, char* target) {
 	list_t* tmp = worksheet->cells;
 	while(tmp) {
 		if (strcmp(((cell_t*)(tmp->value))->name, target) == 0) {
+			return tmp->value;
+		}
+		tmp = tmp->next;
+	}
+	return NULL;
+}
+
+void* search(list_t* list, char* name) {
+	list_t* tmp = list;
+	while(tmp) {
+		if (strcmp(((cell_t*)tmp->value)->name, name) == 0)
+		{
 			return tmp->value;
 		}
 		tmp = tmp->next;

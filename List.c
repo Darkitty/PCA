@@ -93,7 +93,7 @@ liste (de la tete a la queue)
 void view(list_t* list) {
 	list_t* tmp = list;
 	while(tmp) {
-		printf("%p\n", tmp->value);
+		printf("Value : %p\n", tmp->value);
 		tmp = tmp->next;
 	}
 }

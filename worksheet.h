@@ -9,6 +9,7 @@ typedef struct
 	int columns;
 	int lines;
 	list_t* cells;
+	list_t* graphDep;
 } worksheet_t;
 
 #endif

@@ -15,6 +15,7 @@ struct cell_t
 	double value;
 	list_t* tokens;
 	list_t* dependancies;
+	list_t* usedBy;
 	char* name;
 	int degree;
 };
@@ -40,6 +41,7 @@ extern operation_t op[4];
 void init();
 
 void evaluate(worksheet_t* worksheet, cell_t* cell);
+void evaluateGraph(worksheet_t* worksheet);
 
 token_t* newDoubleToken(double val);
 token_t* newOperatorToken(void (*ptr)(pile_t* eval));
@@ -49,10 +51,12 @@ void subtraction(pile_t* eval);
 void multiplication(pile_t* eval);
 void division(pile_t* eval);
 
-void viewList(list_t* list);
+void viewListCell(list_t* list);
 
 void topologicalSorting(worksheet_t* worksheet);
 void getDegree(worksheet_t* worksheet);
 cell_t* getReference(worksheet_t* worksheet, char* target);
+
+void* search(list_t* list, char* name);
 
 #endif
