@@ -52,6 +52,7 @@ void multiplication(pile_t* eval);
 void division(pile_t* eval);
 
 void viewListCell(list_t* list);
+void viewCells(list_t* list);
 
 void topologicalSorting(worksheet_t* worksheet);
 void getDegree(worksheet_t* worksheet);

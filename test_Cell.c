@@ -57,19 +57,19 @@ int main()
 
 	printf("%s\n", "----- TEST EVALUATION -----");
 	evaluate(ptr_worksheet, ptr_cell);
-	printf("Résultat attendu -> 27 (5+4)*3 : %f\n", ptr_cell->value);
+	printf("Résultat attendu -> 27 (5+4)*3             : %f\n", ptr_cell->value);
 
 	printf("%s\n", "----- TEST EVALUATION -----");
 	evaluate(ptr_worksheet, ptr_cell2);
-	printf("Résultat attendu -> 0 : %f\n", ptr_cell2->value);
+	printf("Résultat attendu -> 54 2*((5+4)*3)         : %f\n", ptr_cell2->value);
 
 	printf("%s\n", "----- TEST EVALUATION -----");
 	evaluate(ptr_worksheet, ptr_cell3);
-	printf("Résultat attendu -> 0 : %f\n", ptr_cell3->value);
+	printf("Résultat attendu -> 54 1*(2*((5+4)*3))     : %f\n", ptr_cell3->value);
 
 	printf("%s\n", "----- TEST EVALUATION -----");
 	evaluate(ptr_worksheet, ptr_cell4);
-	printf("Résultat attendu -> 0 : %f\n", ptr_cell4->value);
+	printf("Résultat attendu -> 56 3+(1*(2*((5+4)*3))) : %f\n", ptr_cell4->value);
 
 	printf("%s\n", "---- TEST GETREFERENCE ----");
 	printf("Résultat attendu A1 -> %p : %p\n", (void*)ptr_cell, (void*)getReference(ptr_worksheet, "A1"));
@@ -79,19 +79,17 @@ int main()
 
 	printf("%s\n", "------ TEST GETDEGRE ------");
 	getDegree(ptr_worksheet);
-	printf("Resultat attendu -> 2 : %d\n", ptr_cell3->degree);
-	printf("Resultat attendu -> 1 : %d\n", ptr_cell2->degree);
 	printf("Resultat attendu -> 0 : %d\n", ptr_cell->degree);
-	printf("Resultat attendu -> 0 : %d\n", ptr_cell4->degree);
-
-	view(ptr_cell->usedBy);
+	printf("Resultat attendu -> 1 : %d\n", ptr_cell2->degree);
+	printf("Resultat attendu -> 2 : %d\n", ptr_cell3->degree);
+	printf("Resultat attendu -> 1 : %d\n", ptr_cell4->degree);
 
 	printf("%s\n", "----- TEST TOPOLOGIC -----");
-	view(ptr_worksheet->cells);
+	viewCells(ptr_worksheet->cells);
 	printf("---\n");
 	topologicalSorting(ptr_worksheet);
 	evaluateGraph(ptr_worksheet);
-	printf("Résultat attendu -> 56 : %f\n", ptr_cell4->value);
+	viewCells(ptr_worksheet->graphDep);
 
 	return 0;
 }

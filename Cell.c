@@ -36,11 +36,9 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	ptr_list = initList();
 
 	string = strdup(cell->saisi);
-	printf("%s\n", string);
-
 	explode = strtok(string, " ");
+
 	while(explode != NULL) {
-		printf("%s\n", explode);
 		if (strtod(explode, NULL) != 0.00)
 		{
 			token_t* tmp;
@@ -127,6 +125,7 @@ void addition(pile_t* eval) {
 	double res;
 	double tmp;
 	double tmp2;
+
 	tmp = unstack(eval);
 	tmp2 = unstack(eval);
 	if ((tmp == -1)||(tmp2 == -1))
@@ -141,6 +140,7 @@ void subtraction(pile_t* eval) {
 	double res;
 	double tmp;
 	double tmp2;
+
 	tmp = unstack(eval);
 	tmp2 = unstack(eval);
 	if ((tmp == -1)||(tmp2 == -1))
@@ -155,6 +155,7 @@ void multiplication(pile_t* eval) {
 	double res;
 	double tmp;
 	double tmp2;
+
 	tmp = unstack(eval);
 	tmp2 = unstack(eval);
 	if ((tmp == -1)||(tmp2 == -1))
@@ -169,6 +170,7 @@ void division(pile_t* eval) {
 	double res;
 	double tmp;
 	double tmp2;
+
 	tmp = unstack(eval);
 	tmp2 = unstack(eval);
 	if ((tmp == -1)||(tmp2 == -1))
@@ -185,13 +187,24 @@ void viewListCell(list_t* list) {
 	i = 0;
 	while(tmp) {
 		if (((token_t*)(tmp->value))->type == 0)
-		{
 			printf("Element %d : %f\n", i, ((token_t*)(tmp->value))->value.cst);
-		}
 		else
 			printf("Element %d : %p\n", i, (void*)((token_t*)(tmp->value))->value.ref);
 		tmp = tmp->next;
 		i++;
+	}
+}
+
+/**
+Affiche l'ensemble des valeurs de la
+liste (de la tete a la queue)
+* \param list Adresse de la liste
+*/
+void viewCells(list_t* list) {
+	list_t* tmp = list;
+	while(tmp) {
+		printf("Case : %s - Value : %p\n", ((cell_t*)tmp->value)->name, tmp->value);
+		tmp = tmp->next;
 	}
 }
 
@@ -261,7 +274,6 @@ void topologicalSorting(worksheet_t* worksheet) {
 		}
 	}
 	worksheet->graphDep = shortCells;
-	view(shortCells);
 }
 
 void getDegree(worksheet_t* worksheet) {
