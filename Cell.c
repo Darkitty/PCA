@@ -2,6 +2,9 @@
 
 operation_t op[4];
 
+/**
+Initialisation du tableau des operations
+*/
 void init() {
 	op[0].nom = "+";
 	op[0].ptr = &addition;
@@ -16,6 +19,11 @@ void init() {
 	op[3].ptr = &division;
 }
 
+/**
+Evaluation du contenu de la cellule
+* \param worksheet Adresse du worksheet
+* \param cell Adresse de la cellule a evaluer
+*/
 void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	char* explode;
 	char* string;
@@ -48,7 +56,7 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 		}
 		else
 		{
-			dependance = getReference(worksheet, explode);
+			dependance = getReference(worksheet->cells, explode);
 			if (dependance != NULL)
 			{
 				cell->dependancies = insertHead(cell->dependancies, dependance);
@@ -91,6 +99,11 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	cell->tokens = ptr_list;
 }
 
+/**
+Evaluation du contenu des cellules de la feuille 
+de calcul en tenant compte des dependances
+* \param worksheet Adresse du worksheet
+*/
 void evaluateGraph(worksheet_t* worksheet) {
 	list_t* tmp = worksheet->graphDep;
 	while(tmp) {
@@ -181,6 +194,10 @@ void division(pile_t* eval) {
 	stack(eval, res);
 }
 
+/**
+Affiche l'ensemble des tokens
+* \param list Adresse de la liste
+*/
 void viewListCell(list_t* list) {
 	list_t* tmp = list;
 	int i;
@@ -196,8 +213,8 @@ void viewListCell(list_t* list) {
 }
 
 /**
-Affiche l'ensemble des valeurs de la
-liste (de la tete a la queue)
+Affiche l'ensemble des adresses des cellules
+et leur nom
 * \param list Adresse de la liste
 */
 void viewCells(list_t* list) {
@@ -208,34 +225,44 @@ void viewCells(list_t* list) {
 	}
 }
 
+/**
+Tri des cellules dans l'ordre de leurs dependances 
+(du plus bas vers le plus eleve)
+* \param worksheet Adresse du worksheet
+*/
 void topologicalSorting(worksheet_t* worksheet) {
-	list_t* tmp = worksheet->cells;
-	list_t* tmpDep;
-	list_t* shortCells;
+	list_t* tmp = worksheet->cells; /* Permet de se deplacer dans la liste */
+	list_t* tmpDep;					/* Liste des dependances de la cellule */
+	list_t* shortCells;				/* Liste des cellules triees */
+
 	void* cellDep;
 	int nbCells;
 	int insertions;
 	int cmpDep;
 	int depFound;
+
 	nbCells = 0;
 	insertions = 0;
-	cmpDep = 0;
-	depFound = 0;
 	shortCells = initList();
+
+	/* Nombre des cellules dans la feuille */
 	while(tmp) {
 		nbCells += 1;
 		tmp = tmp->next;
 	}
+	/* Boucle tant que le nombre d'insertions n'est pas equel au nombre de cellules */
 	while(nbCells != insertions) {
-		tmp = worksheet->cells;
+		tmp = worksheet->cells;		/* On recommence au debut afin de parcourir toutes les cellules */
 		while(tmp) {
+			/* Si la cellule possede des dependances */
 			if (((cell_t*)tmp->value)->dependancies != NULL)
 			{
 				tmpDep = ((cell_t*)tmp->value)->dependancies;
 				cmpDep = 0;
 				depFound = 0;
 				while(tmpDep) {
-					cellDep = search(shortCells, ((cell_t*)tmpDep->value)->name);
+					/* Pour eviter d'avoir deux fois la meme cellule */
+					cellDep = getReference(shortCells, ((cell_t*)tmpDep->value)->name);
 					if (cellDep != NULL)
 					{
 						depFound += 1;
@@ -250,9 +277,11 @@ void topologicalSorting(worksheet_t* worksheet) {
 					break;
 				}
 			}
+			/* Si la cellule ne possede pas de dependances mais est utilisee par d'autres cellules */
 			else if ((((cell_t*)tmp->value)->dependancies == NULL)&&((cell_t*)tmp->value)->usedBy != NULL)
 			{
-				cellDep = search(shortCells, ((cell_t*)tmp->value)->name);
+				/* Pour eviter d'avoir deux fois la meme cellule */
+				cellDep = getReference(shortCells, ((cell_t*)tmp->value)->name);
 				if (cellDep == NULL)
 				{
 					shortCells = insertQueue(shortCells, tmp->value);
@@ -260,9 +289,11 @@ void topologicalSorting(worksheet_t* worksheet) {
 					break;
 				}
 			}
+			/* Si la cellule est libre des autres cellule */
 			else if (((cell_t*)tmp->value)->dependancies == NULL)
 			{
-				cellDep = search(shortCells, ((cell_t*)tmp->value)->name);
+				/* Pour eviter d'avoir deux fois la meme cellule */
+				cellDep = getReference(shortCells, ((cell_t*)tmp->value)->name);
 				if (cellDep == NULL)
 				{
 					shortCells = insertQueue(shortCells, tmp->value);
@@ -276,6 +307,10 @@ void topologicalSorting(worksheet_t* worksheet) {
 	worksheet->graphDep = shortCells;
 }
 
+/**
+Calcul pour chaque cellule son degre de dependance
+* \param worksheet Adresse du worksheet
+*/
 void getDegree(worksheet_t* worksheet) {
 	list_t* tmp = worksheet->cells;
 	list_t* tmp2;
@@ -295,18 +330,14 @@ void getDegree(worksheet_t* worksheet) {
 	}
 }
 
-cell_t* getReference(worksheet_t* worksheet, char* target) {
-	list_t* tmp = worksheet->cells;
-	while(tmp) {
-		if (strcmp(((cell_t*)(tmp->value))->name, target) == 0) {
-			return tmp->value;
-		}
-		tmp = tmp->next;
-	}
-	return NULL;
-}
-
-void* search(list_t* list, char* name) {
+/**
+Retourne la reference d'une cellule a partir de
+son nom
+* \param worksheet Adresse du worksheet
+* \param target Le nom de la cellule
+* \return Adresse de la cellule ou NULL sinon
+*/
+void* getReference(list_t* list, char* name) {
 	list_t* tmp = list;
 	while(tmp) {
 		if (strcmp(((cell_t*)tmp->value)->name, name) == 0)

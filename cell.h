@@ -12,12 +12,12 @@ typedef struct cell_t cell_t;
 struct cell_t
 {
 	char* saisi;
+	char* name;
+	int degree;
 	double value;
 	list_t* tokens;
 	list_t* dependancies;
 	list_t* usedBy;
-	char* name;
-	int degree;
 };
 
 typedef struct
@@ -56,8 +56,7 @@ void viewCells(list_t* list);
 
 void topologicalSorting(worksheet_t* worksheet);
 void getDegree(worksheet_t* worksheet);
-cell_t* getReference(worksheet_t* worksheet, char* target);
 
-void* search(list_t* list, char* name);
+void* getReference(list_t* list, char* name);
 
 #endif

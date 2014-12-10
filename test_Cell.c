@@ -72,10 +72,10 @@ int main()
 	printf("Résultat attendu -> 56 3+(1*(2*((5+4)*3))) : %f\n", ptr_cell4->value);
 
 	printf("%s\n", "---- TEST GETREFERENCE ----");
-	printf("Résultat attendu A1 -> %p : %p\n", (void*)ptr_cell, (void*)getReference(ptr_worksheet, "A1"));
-	printf("Résultat attendu A2 -> %p : %p\n", (void*)ptr_cell2, (void*)getReference(ptr_worksheet, "A2"));
-	printf("Résultat attendu A3 -> %p : %p\n", (void*)ptr_cell3, (void*)getReference(ptr_worksheet, "A3"));
-	printf("Résultat attendu A4 -> %p : %p\n", (void*)ptr_cell4, (void*)getReference(ptr_worksheet, "A4"));
+	printf("Résultat attendu A1 -> %p : %p\n", (void*)ptr_cell, (void*)getReference(ptr_worksheet->cells, "A1"));
+	printf("Résultat attendu A2 -> %p : %p\n", (void*)ptr_cell2, (void*)getReference(ptr_worksheet->cells, "A2"));
+	printf("Résultat attendu A3 -> %p : %p\n", (void*)ptr_cell3, (void*)getReference(ptr_worksheet->cells, "A3"));
+	printf("Résultat attendu A4 -> %p : %p\n", (void*)ptr_cell4, (void*)getReference(ptr_worksheet->cells, "A4"));
 
 	printf("%s\n", "------ TEST GETDEGRE ------");
 	getDegree(ptr_worksheet);
