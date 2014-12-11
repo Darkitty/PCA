@@ -1,3 +1,10 @@
+/**
+* \file List.c
+* \author Nicolas Le Gall
+* \date 01/12/2014
+* \brief Definit l'ensemble des methodes pour une structure de type Pile
+*/
+
 #include "Pile.h"
 
 /**

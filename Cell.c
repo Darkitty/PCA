@@ -1,3 +1,10 @@
+/**
+* \file List.c
+* \author Nicolas Le Gall
+* \date 11/12/2014
+* \brief Definit l'ensemble des methodes pour une structure de type Cell
+*/
+
 #include "Cell.h"
 
 operation_t op[4];
