@@ -112,6 +112,12 @@ void evaluateGraph(worksheet_t* worksheet) {
 	}
 }
 
+/**
+Creer un nouveau token pour l'insertion dans la
+liste de type double
+* \param val Double a transformer en token
+* \return Adresse en memoire du token
+*/
 token_t* newDoubleToken(double val) {
 	token_t* token;
 
@@ -123,6 +129,12 @@ token_t* newDoubleToken(double val) {
 	return token;
 }
 
+/**
+Creer un nouveau token pour l'insertion dans la
+liste de type operation
+* \param ptr Adresse de l'operation
+* \return Adresse en memoire du token
+*/
 token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
 	token_t* token;
 
@@ -134,6 +146,11 @@ token_t* newOperatorToken(void (*ptr)(pile_t* eval)) {
 	return token;
 }
 
+/**
+Additionne les deux derniers elements de
+la pile
+* \param eval Adresse de la pile
+*/
 void addition(pile_t* eval) {
 	double res;
 	double tmp;
@@ -149,6 +166,11 @@ void addition(pile_t* eval) {
 	stack(eval, res);
 }
 
+/**
+Soustrait les deux derniers elements de
+la pile
+* \param eval Adresse de la pile
+*/
 void subtraction(pile_t* eval) {
 	double res;
 	double tmp;
@@ -164,6 +186,11 @@ void subtraction(pile_t* eval) {
 	stack(eval, res);
 }
 
+/**
+Multiplie les deux derniers elements de
+la pile
+* \param eval Adresse de la pile
+*/
 void multiplication(pile_t* eval) {
 	double res;
 	double tmp;
@@ -179,6 +206,11 @@ void multiplication(pile_t* eval) {
 	stack(eval, res);
 }
 
+/**
+Divise les deux derniers elements de
+la pile
+* \param eval Adresse de la pile
+*/
 void division(pile_t* eval) {
 	double res;
 	double tmp;
