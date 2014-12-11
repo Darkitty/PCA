@@ -27,7 +27,11 @@ void init() {
 }
 
 /**
-Evaluation du contenu de la cellule
+Evaluation du contenu de la cellule 
+On decoupe la formule saisie dans la cellule 
+afin d'evaluer chaque partie. On applique 
+ensuite la bonne fonction : un nombre (double) 
+ou une operation (operator).
 * \param worksheet Adresse du worksheet
 * \param cell Adresse de la cellule a evaluer
 */
@@ -35,10 +39,10 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	char* explode;
 	char* string;
 	int i;
-
+	/* Pile pour calcule la valeur de la cellule */
 	pile_t pile;
 	pile_t* ptr_pile;
-
+	/* Liste des tokens pour recalculer la cellule par la suite */
 	list_t list;
 	list_t* ptr_list;
 
@@ -50,12 +54,13 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 	initPile(ptr_pile, strlen(cell->saisi));
 	ptr_list = initList();
 
-	string = strdup(cell->saisi);
-	explode = strtok(string, " ");
+	string = strdup(cell->saisi);			/* On copie la formule */
+	explode = strtok(string, " ");			/* On decompose la formule */
 
-	while(explode != NULL) {
-		if (strtod(explode, NULL) != 0.00)
+	while(explode != NULL) {				/* Tant que explode n'est pas NULL */
+		if (strtod(explode, NULL) != 0.00)	/* Si c'est un nombre de type double */
 		{
+			/* Creation d'un token de type double et insertion dans la pile */
 			token_t* tmp;
 			tmp = newDoubleToken(strtod(explode, NULL));
 			ptr_list = insertHead(ptr_list, tmp);
@@ -64,46 +69,36 @@ void evaluate(worksheet_t* worksheet, cell_t* cell) {
 		else
 		{
 			dependance = getReference(worksheet->cells, explode);
-			if (dependance != NULL)
+			if (dependance != NULL)			/* Si les dependances sont pas NULL */
 			{
+				/* On ajoute a la cellule la reference de sa dependance
+				et dans la depence qu'elle est utilisee par la cellule */
 				cell->dependancies = insertHead(cell->dependancies, dependance);
 				dependance->usedBy = insertHead(dependance->usedBy, cell);
 				stack(ptr_pile, dependance->value);
 			}
-			else {
-				for (i = 0; i < 4; ++i)
+			else {							/* Sinon (operation) */
+				for (i = 0; i < 4; ++i)		/* On parcourt le tableau pour trouver la bonne */
 				{
 					if (strcmp(explode, op[i].nom) == 0)
 					{
+						/* On cree un nouveau token operator et on applique l'operation sur la pile */
 						token_t* tmp;
 						tmp = newOperatorToken(op[i].ptr);
 						ptr_list = insertHead(ptr_list, tmp);
-						switch (i) {
-							case 0:
-								addition(ptr_pile);
-								break;
-							case 1:
-								subtraction(ptr_pile);
-								break;
-							case 2:
-								multiplication(ptr_pile);
-								break;
-							case 3:
-								division(ptr_pile);
-								break;
-						}
+						op[i].ptr(ptr_pile);
 					}
 				}
 			}
 		}
-		explode = strtok(NULL, " ");
+		explode = strtok(NULL, " ");		/* On passe a l'element suivant dans la formule */
 	}
-	cell->value = unstack(ptr_pile);
-	if (cell->value == -1)
+	cell->value = unstack(ptr_pile);		/* On recupere l'element dans la pile calculee */
+	if (cell->value == -1)					/* Si '-1', on remet a 0 */
 	{
 		cell->value = 0;
 	}
-	cell->tokens = ptr_list;
+	cell->tokens = ptr_list;				/* On donne l'adresse de la liste des tokens a la cellule */
 }
 
 /**
